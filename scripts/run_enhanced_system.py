@@ -106,13 +106,42 @@ def main():
         print(f"Could not find anomaly detector at {detector_script}")
         return 1
     
-    # Start the dashboard
-    print("Starting Streamlit dashboard...")
-    dashboard_script = os.path.join(base_dir, "dashboard", "app.py")
-    if os.path.exists(dashboard_script):
-        processes['dashboard'] = subprocess.Popen([sys.executable, "-m", "streamlit", "run", dashboard_script])
+    # Start the Next.js frontend
+    print("Starting Next.js frontend...")
+    frontend_dir = os.path.join(base_dir, "frontend")
+    if os.path.exists(frontend_dir):
+        # Check if npm is installed
+        try:
+            subprocess.run(["npm", "--version"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+            
+            # Check if node_modules exists, if not run npm install
+            if not os.path.exists(os.path.join(frontend_dir, "node_modules")):
+                print("Installing Next.js dependencies (this may take a moment)...")
+                try:
+                    subprocess.run(
+                        ["npm", "install"],
+                        cwd=frontend_dir,
+                        check=True,
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.PIPE
+                    )
+                    print("Next.js dependencies installed successfully")
+                except subprocess.CalledProcessError as e:
+                    print(f"Error installing dependencies: {e.stderr.decode() if e.stderr else 'Unknown error'}")
+                    print("You may need to install dependencies manually: cd frontend && npm install")
+            
+            # Start Next.js using npm
+            processes['frontend'] = subprocess.Popen(
+                ["npm", "run", "dev"],
+                cwd=frontend_dir,
+                env=dict(os.environ, PORT="3000")
+            )
+            print("Next.js frontend is running on http://localhost:3000")
+        except (subprocess.SubprocessError, FileNotFoundError):
+            print("Error: npm not found. Please install Node.js and npm to run the Next.js frontend.")
+            return 1
     else:
-        print(f"Could not find dashboard at {dashboard_script}")
+        print(f"Error: Next.js frontend directory not found at {frontend_dir}")
         return 1
     
     print("\n" + "=" * 80)
@@ -137,9 +166,14 @@ def main():
                         processes['detector'] = subprocess.Popen([sys.executable, detector_script])
                     else:
                         processes['detector'] = subprocess.Popen([sys.executable, detector_script])
-                elif name == 'dashboard':
-                    print("Restarting dashboard...")
-                    processes['dashboard'] = subprocess.Popen([sys.executable, "-m", "streamlit", "run", dashboard_script])
+                elif name == 'frontend':
+                    print("Restarting Next.js frontend...")
+                    frontend_dir = os.path.join(base_dir, "frontend")
+                    processes['frontend'] = subprocess.Popen(
+                        ["npm", "run", "dev"],
+                        cwd=frontend_dir,
+                        env=dict(os.environ, PORT="3000")
+                    )
         
         # Sleep for a bit to avoid CPU overuse
         time.sleep(1)

@@ -262,31 +262,27 @@ def run_system(enhanced=False):
         print(f"Error starting system: {e}")
         return False
 
-def run_frontends(frontend_only=False, with_streamlit=False):
-    """Run the frontend components"""
-    print("Starting the frontend components...")
+def run_frontends(frontend_only=False):
+    """Run the Next.js frontend component"""
+    print("Starting the Next.js frontend...")
     
     # Get the project root directory
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
     # Move to the project root to ensure imports work properly
     os.chdir(base_dir)
-    print(f"Running frontends from directory: {os.getcwd()}")
+    print(f"Running frontend from directory: {os.getcwd()}")
     
     cmd = [
         sys.executable,
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "run_frontends.py")
     ]
     
-    # Add with-streamlit flag if requested
-    if with_streamlit:
-        cmd.append("--with-streamlit")
-    
     try:
         # Use os.execv to replace the current process
         os.execv(sys.executable, cmd)
     except Exception as e:
-        print(f"Error starting frontends: {e}")
+        print(f"Error starting frontend: {e}")
         return False
 
 def main():
@@ -306,7 +302,7 @@ def main():
     
     # Add optional arguments that can be used with --run or --run-enhanced
     parser.add_argument('--with-frontends', action='store_true', help='Also start the frontend components')
-    parser.add_argument('--with-streamlit', action='store_true', help='Also start the Streamlit dashboard (use with --with-frontends)')
+
     
     args = parser.parse_args()
     
@@ -323,7 +319,7 @@ def main():
     elif args.run:
         # If with-frontends is specified, we need to start both backend and frontend
         if args.with_frontends:
-            print(f"Will start standard system and frontends{' with Streamlit' if args.with_streamlit else ''}...")
+            print("Will start standard system and Next.js frontend...")
             # Fork a process for the backend
             pid = os.fork()
             if pid == 0:
@@ -332,14 +328,14 @@ def main():
             else:
                 # Parent process - start the frontends and then exit
                 time.sleep(3)  # Give backend time to start
-                return run_frontends(with_streamlit=args.with_streamlit)
+                return run_frontends()
         else:
             # Just start the backend
             return run_system(enhanced=False)
     elif args.run_enhanced:
         # If with-frontends is specified, we need to start both backend and frontend
         if args.with_frontends:
-            print(f"Will start enhanced system and frontends{' with Streamlit' if args.with_streamlit else ''}...")
+            print("Will start enhanced system and Next.js frontend...")
             # Fork a process for the backend
             pid = os.fork()
             if pid == 0:
@@ -348,7 +344,7 @@ def main():
             else:
                 # Parent process - start the frontends and then exit
                 time.sleep(3)  # Give backend time to start
-                return run_frontends(with_streamlit=args.with_streamlit)
+                return run_frontends()
         else:
             # Just start the backend
             return run_system(enhanced=True)

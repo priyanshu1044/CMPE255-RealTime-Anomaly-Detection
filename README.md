@@ -1,6 +1,6 @@
 # Real-Time Anomaly Detection in Transactions
 
-This project implements a **real-time anomaly detection system** for financial transactions using streaming data, machine learning, and data visualization. It detects fraudulent transactions using PyOD and Isolation Forest, processes data in real-time using Redpanda (Kafka-compatible), and stores anomalies in a PostgreSQL database, which are then displayed through live dashboards built with Streamlit and Next.js.
+This project implements a **real-time anomaly detection system** for financial transactions using streaming data, machine learning, and data visualization. It detects fraudulent transactions using PyOD and Isolation Forest, processes data in real-time using Redpanda (Kafka-compatible), and stores anomalies in a PostgreSQL database, which are then displayed through a live dashboard built with Next.js.
 
 The system features both a standard batch-based anomaly detection approach and an enhanced mode with user-specific models that learn from individual transaction histories.
 
@@ -11,9 +11,8 @@ The system features both a standard batch-based anomaly detection approach and a
 - **Streaming Platform:** [Redpanda](https://redpanda.com/) (Kafka-compatible)
 - **Anomaly Detection:** Python, [PyOD](https://github.com/yzhao062/pyod), Isolation Forest, User-Specific Models
 - **Storage:** PostgreSQL (via Docker)
-- **Dashboards:** 
-  - Streamlit (data exploration and monitoring)
-  - Next.js (modern UI with React components)
+- **Dashboard:** 
+  - Next.js (modern UI with React components for data exploration and monitoring)
 - **Maintenance:** Centralized system management scripts
 
 ---
@@ -36,15 +35,7 @@ RealTime-Anomaly-Detection/
 │   ├── maintain.py           # System maintenance script
 │   ├── init_user_profiles.py # Profile initialization
 │   └── run_frontends.py      # Frontend launcher
-├── app.py                    # Streamlit dashboard entry point
-├── pages/                    # Streamlit dashboard pages
-├── frontend/                 # Next.js modern UI
-│   ├── components/           # React components
-│   ├── app/                  # Next.js app directory
-│   │   ├── dashboard/        # Dashboard page
-│   │   ├── analytics/        # Analytics page
-│   │   └── api/              # API routes
-│   └── lib/                  # Frontend utilities
+├── frontend/                 # Next.js frontend application
 ├── docker-compose.yml        # Redpanda and PostgreSQL Docker setup
 ├── requirements.txt          # Python dependencies
 └── README.md                 # Project documentation
@@ -107,7 +98,7 @@ python scripts/maintain.py --run-enhanced
 ```
 
 #### Run with Frontends
-To run the system with both the Streamlit dashboard and Next.js frontend:
+To run the system with the Next.js frontend:
 ```bash
 python scripts/maintain.py --run-enhanced --with-frontends
 ```
@@ -135,10 +126,6 @@ Or enhanced detector with user-specific models:
 python detector/enhanced_anomaly_detector.py
 ```
 
-#### C. Launch the Streamlit Dashboard
-```bash
-streamlit run app.py
-```
 
 #### D. Launch the Next.js Frontend (optional)
 ```bash
@@ -148,7 +135,6 @@ npm run dev
 ```
 
 Then open your browser at:
-- Streamlit: [http://localhost:8501](http://localhost:8501)
 - Next.js: [http://localhost:3000](http://localhost:3000)
 
 ---
@@ -172,10 +158,7 @@ pyod
 pandas
 numpy
 psycopg2-binary
-streamlit
 altair
-streamlit-autorefresh
-streamlit-option-menu
 scikit-learn
 pickle-mixin
 ```
