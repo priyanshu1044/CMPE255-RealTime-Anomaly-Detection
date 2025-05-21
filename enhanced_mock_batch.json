@@ -1,0 +1,99 @@
+[
+  {
+    "transaction_id": "550e8400-e29b-41d4-a716-446655440000",
+    "user_id": 42,
+    "amount": 149.99,
+    "currency": "USD",
+    "location": "US",
+    "timestamp": 1713680000,
+    "transaction_type": "purchase",
+    "merchant": {
+      "merchant_id": "MERCH1234",
+      "name": "Electronics_Store_567",
+      "category": "Electronics"
+    },
+    "payment_method": "Credit Card",
+    "device_info": {
+      "type": "Mobile",
+      "ip_address": "192.168.1.105"
+    }
+  },
+  {
+    "transaction_id": "550e8400-e29b-41d4-a716-446655440001",
+    "user_id": 23,
+    "amount": 8549.99,
+    "currency": "USD",
+    "location": "RU",
+    "timestamp": 1713680100,
+    "transaction_type": "withdrawal",
+    "merchant": {
+      "merchant_id": "MERCH9876",
+      "name": "Unknown_Vendor_123",
+      "category": "Other"
+    },
+    "payment_method": "Cryptocurrency",
+    "device_info": {
+      "type": "Desktop",
+      "ip_address": "192.168.5.200"
+    },
+    "_anomalous": true
+  },
+  {
+    "transaction_id": "550e8400-e29b-41d4-a716-446655440002",
+    "user_id": 78,
+    "amount": 25.50,
+    "currency": "USD",
+    "location": "US",
+    "timestamp": 1713680200,
+    "transaction_type": "purchase",
+    "merchant": {
+      "merchant_id": "MERCH5555",
+      "name": "Grocery_Store_101",
+      "category": "Grocery"
+    },
+    "payment_method": "Debit Card",
+    "device_info": {
+      "type": "POS Terminal",
+      "ip_address": "192.168.10.50"
+    }
+  },
+  {
+    "transaction_id": "550e8400-e29b-41d4-a716-446655440003",
+    "user_id": 15,
+    "amount": 2000.00,
+    "currency": "USD",
+    "location": "UK",
+    "timestamp": 1713680300,
+    "transaction_type": "transfer",
+    "merchant": {
+      "merchant_id": "MERCH7777",
+      "name": "Bank_Transfer_999",
+      "category": "Other"
+    },
+    "payment_method": "Bank Transfer",
+    "device_info": {
+      "type": "Mobile",
+      "ip_address": "192.168.15.10"
+    }
+  },
+  {
+    "transaction_id": "550e8400-e29b-41d4-a716-446655440004",
+    "user_id": 15,
+    "amount": 9995.00,
+    "currency": "USD",
+    "location": "CN",
+    "timestamp": 1713680400,
+    "transaction_type": "withdrawal",
+    "merchant": {
+      "merchant_id": "MERCH8888",
+      "name": "Foreign_Exchange_777",
+      "category": "Other"
+    },
+    "payment_method": "Digital Wallet",
+    "device_info": {
+      "type": "Unknown",
+      "ip_address": "192.168.20.30"
+    },
+    "_anomalous": true
+  }
+]

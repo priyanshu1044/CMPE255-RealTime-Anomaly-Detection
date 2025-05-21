@@ -1,0 +1,30 @@
+# Quick Start Guide
+
+# 1. Setup environment
+python3 -m venv venv
+source venv/bin/activate && pip install -r requirements.txt
+docker-compose up -d
+
+# 2. Initialize database and tables
+source venv/bin/activate && python scripts/maintain.py --init-db
+
+# 3. Run the system in standard mode
+source venv/bin/activate && python scripts/maintain.py --run
+
+# OR run the enhanced system with user profiles
+# First initialize user profiles (only needed once)
+source venv/bin/activate && python scripts/maintain.py --init-profiles
+# Then run the enhanced system
+source venv/bin/activate && python scripts/maintain.py --run-enhanced
+
+# 4. Run the system with both frontends
+source venv/bin/activate && python scripts/maintain.py --run-enhanced --with-frontends
+
+# 5. For running just the Next.js frontend manually
+cd frontend && npm install && npm run dev
+
+# 6. Show system statistics
+source venv/bin/activate && python scripts/maintain.py --stats
+
+# If you need to manually create the frauds table (not usually needed)
+source venv/bin/activate && python -c "import psycopg2; conn = psycopg2.connect(dbname='anomalies', user='user', password='pass', host='localhost', port='5432'); cursor = conn.cursor(); cursor.execute('CREATE TABLE IF NOT EXISTS frauds (user_id INT, amount FLOAT, location TEXT, timestamp FLOAT, risk_level TEXT, model_used TEXT)'); conn.commit(); print('frauds table created successfully!'); conn.close()"

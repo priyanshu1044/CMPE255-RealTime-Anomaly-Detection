@@ -1,0 +1,32 @@
+[
+    {
+        "user_id": 1,
+        "amount": 50.0,
+        "location": "US",
+        "timestamp": 1713680000
+    },
+    {
+        "user_id": 2,
+        "amount": 9999.0,
+        "location": "IN",
+        "timestamp": 1713680001
+    },
+    {
+        "user_id": 3,
+        "amount": 20.0,
+        "location": "UK",
+        "timestamp": 1713680002
+    },
+    {
+        "user_id": 4,
+        "amount": 5000.0,
+        "location": "US",
+        "timestamp": 1713680003
+    },
+    {
+        "user_id": 5,
+        "amount": 15.0,
+        "location": "IN",
+        "timestamp": 1713680004
+    }
+]
