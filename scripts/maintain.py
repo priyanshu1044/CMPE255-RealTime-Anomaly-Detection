@@ -315,7 +315,7 @@ def main():
     elif args.stats:
         return 0 if show_stats() else 1
     elif args.run_frontends:
-        return run_frontends(frontend_only=True, with_streamlit=args.with_streamlit)
+        return run_frontends(frontend_only=True)
     elif args.run:
         # If with-frontends is specified, we need to start both backend and frontend
         if args.with_frontends:

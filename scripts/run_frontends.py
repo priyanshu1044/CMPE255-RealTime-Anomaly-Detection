@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Script to run both the Streamlit dashboard and Next.js frontend together.
-Use this to start all frontend components when running the enhanced system.
+Script to run the Next.js frontend for the Real-Time Anomaly Detection System.
+Use this to start the frontend component when running the system.
 """
 
 import subprocess
@@ -36,9 +36,7 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 def main():
-    parser = argparse.ArgumentParser(description="Run the Real-Time Anomaly Detection frontend components")
-    parser.add_argument("--with-streamlit", action="store_true", help="Also start Streamlit dashboard")
-    parser.add_argument("--no-nextjs", action="store_true", help="Don't start Next.js frontend")
+    parser = argparse.ArgumentParser(description="Run the Real-Time Anomaly Detection frontend")
     parser.add_argument("--no-browser", action="store_true", help="Don't open browser windows")
     args = parser.parse_args()
     
@@ -49,64 +47,50 @@ def main():
     # Get the base directory of the project (parent of the scripts directory)
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
-    # Start Streamlit frontend only if explicitly requested
-    if args.with_streamlit:
-        print("Starting Streamlit dashboard...")
-        # app.py is in the project root directory
-        streamlit_cmd = [sys.executable, "-m", "streamlit", "run", os.path.join(base_dir, "app.py")]
-        processes['streamlit'] = subprocess.Popen(streamlit_cmd)
-        print("Streamlit dashboard is running on http://localhost:8501")
-        
-        if not args.no_browser:
-            time.sleep(2)  # Give time to start up
-            webbrowser.open("http://localhost:8501")
-    
     # Start Next.js frontend
-    if not args.no_nextjs:
-        frontend_dir = os.path.join(base_dir, "frontend")
-        if os.path.exists(frontend_dir):
-            print("Starting Next.js frontend...")
-            # Check if npm is installed
-            try:
-                subprocess.run(["npm", "--version"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+    frontend_dir = os.path.join(base_dir, "frontend")
+    if os.path.exists(frontend_dir):
+        print("Starting Next.js frontend...")
+        # Check if npm is installed
+        try:
+            subprocess.run(["npm", "--version"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+            
+            # Check if node_modules exists, if not run npm install
+            if not os.path.exists(os.path.join(frontend_dir, "node_modules")):
+                print("Installing Next.js dependencies (this may take a moment)...")
+                try:
+                    subprocess.run(
+                        ["npm", "install"],
+                        cwd=frontend_dir,
+                        check=True,
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.PIPE
+                    )
+                    print("Next.js dependencies installed successfully")
+                except subprocess.CalledProcessError as e:
+                    print(f"Error installing dependencies: {e.stderr.decode() if e.stderr else 'Unknown error'}")
+                    print("You may need to install dependencies manually: cd frontend && npm install")
+                    # Continue anyway to try running Next.js
                 
-                # Check if node_modules exists, if not run npm install
-                if not os.path.exists(os.path.join(frontend_dir, "node_modules")):
-                    print("Installing Next.js dependencies (this may take a moment)...")
-                    try:
-                        subprocess.run(
-                            ["npm", "install"],
-                            cwd=frontend_dir,
-                            check=True,
-                            stdout=subprocess.DEVNULL,
-                            stderr=subprocess.PIPE
-                        )
-                        print("Next.js dependencies installed successfully")
-                    except subprocess.CalledProcessError as e:
-                        print(f"Error installing dependencies: {e.stderr.decode() if e.stderr else 'Unknown error'}")
-                        print("You may need to install dependencies manually: cd frontend && npm install")
-                        # Continue anyway to try running Next.js
-                
-                # Start Next.js using npm
-                processes['nextjs'] = subprocess.Popen(
-                    ["npm", "run", "dev"],
-                    cwd=frontend_dir,
-                    env=dict(os.environ, PORT="3000")
-                )
-                print("Next.js frontend is running on http://localhost:3000")
-                
-                if not args.no_browser:
-                    time.sleep(5)  # Give time to start up
-                    webbrowser.open("http://localhost:3000")
-            except (subprocess.SubprocessError, FileNotFoundError):
-                print("Error: npm not found. Please install Node.js and npm to run the Next.js frontend.")
-                print("The Streamlit dashboard will still be available at http://localhost:8501")
-        else:
-            print(f"Error: Next.js frontend directory not found at {frontend_dir}")
+            # Start Next.js using npm
+            processes['nextjs'] = subprocess.Popen(
+                ["npm", "run", "dev"],
+                cwd=frontend_dir,
+                env=dict(os.environ, PORT="3000")
+            )
+            print("Next.js frontend is running on http://localhost:3000")
+            
+            if not args.no_browser:
+                time.sleep(5)  # Give time to start up
+                webbrowser.open("http://localhost:3000")
+        except (subprocess.SubprocessError, FileNotFoundError):
+            print("Error: npm not found. Please install Node.js and npm to run the Next.js frontend.")
+    else:
+        print(f"Error: Next.js frontend directory not found at {frontend_dir}")
     
     print("\n" + "=" * 80)
-    print("Real-Time Anomaly Detection Frontends are running!")
-    print("- Press Ctrl+C to shut down all components")
+    print("Real-Time Anomaly Detection Frontend is running!")
+    print("- Press Ctrl+C to shut down the frontend")
     print("=" * 80 + "\n")
     
     # Keep the script running and monitoring the processes
@@ -118,12 +102,7 @@ def main():
                     print(f"\n{name} has terminated with exit code {process.returncode}")
                     
                     # Restart the process
-                    if name == 'streamlit' and args.with_streamlit:
-                        print("Restarting Streamlit dashboard...")
-                        processes['streamlit'] = subprocess.Popen(
-                            [sys.executable, "-m", "streamlit", "run", os.path.join(base_dir, "app.py")]
-                        )
-                    elif name == 'nextjs' and not args.no_nextjs:
+                    if name == 'nextjs':
                         print("Restarting Next.js frontend...")
                         frontend_dir = os.path.join(base_dir, "frontend")
                         processes['nextjs'] = subprocess.Popen(

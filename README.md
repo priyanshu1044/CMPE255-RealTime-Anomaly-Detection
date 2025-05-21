@@ -1,47 +1,65 @@
 # Real-Time Anomaly Detection in Transactions
 
-This project implements a **real-time anomaly detection system** for financial transactions using streaming data, machine learning, and data visualization. It detects fraudulent transactions using PyOD and Isolation Forest, processes data in real-time using Redpanda (Kafka-compatible), and stores anomalies in a PostgreSQL database, which are then displayed through a live dashboard built with Next.js.
+## System Overview
 
-The system features both a standard batch-based anomaly detection approach and an enhanced mode with user-specific models that learn from individual transaction histories.
+The Real-Time Anomaly Detection System is designed to detect anomalies in financial transactions in real-time. It uses a combination of machine learning algorithms and user profile analysis to identify potentially fraudulent transactions. The system consists of several components that work together to generate, process, analyze, and visualize transaction data.
 
----
+## System Architecture
 
-## Tech Stack
-- **Producer:** Python + `kafka-python` (Redpanda-compatible)
-- **Streaming Platform:** [Redpanda](https://redpanda.com/) (Kafka-compatible)
-- **Anomaly Detection:** Python, [PyOD](https://github.com/yzhao062/pyod), Isolation Forest, User-Specific Models
-- **Storage:** PostgreSQL (via Docker)
-- **Dashboard:** 
-  - Next.js (modern UI with React components for data exploration and monitoring)
-- **Maintenance:** Centralized system management scripts
+The system follows a microservices architecture with the following main components:
 
----
+1. **Transaction Producer**: Generates simulated transaction data and sends it to a Kafka topic.
+2. **Anomaly Detector**: Consumes transaction data from Kafka, analyzes it for anomalies, and stores results in a PostgreSQL database.
+3. **Enhanced Anomaly Detector**: An improved version of the anomaly detector that uses user profiles for more accurate detection.
+4. **Next.js Frontend**: Provides a web interface to visualize transaction data and detected anomalies.
 
-## 📁 Project Structure
+The components communicate through:
+- **Kafka**: For real-time data streaming between the producer and detectors
+- **PostgreSQL**: For storing transaction data, anomaly detection results, and user profiles
 
-```
-RealTime-Anomaly-Detection/
-├── producer/                 # Kafka producer script
-│   └── produce.py
-├── detector/                 # Anomaly detection scripts
-│   ├── anomaly_detector.py   # Standard batch-based detector
-│   └── enhanced_anomaly_detector.py  # User-specific model detector
-├── components/               # Shared components
-│   ├── filters.py            # UI filters for dashboard
-│   ├── db_connection.py      # Database utilities
-│   └── user_profile_manager.py  # User profile management
-├── models/                   # Saved user-specific models
-├── scripts/                  # Utility scripts
-│   ├── maintain.py           # System maintenance script
-│   ├── init_user_profiles.py # Profile initialization
-│   └── run_frontends.py      # Frontend launcher
-├── frontend/                 # Next.js frontend application
-├── docker-compose.yml        # Redpanda and PostgreSQL Docker setup
-├── requirements.txt          # Python dependencies
-└── README.md                 # Project documentation
-```
+## Components
 
----
+### Transaction Producer
+
+The transaction producer (`producer/produce.py`) generates simulated transaction data with the following features:
+
+- Creates transactions for 100 simulated users
+- Each user has a profile with typical transaction patterns
+- Generates both normal and anomalous transactions (1 in 20 transactions is anomalous)
+- Sends transactions to a Kafka topic named "transactions"
+
+Transaction data includes:
+- Transaction ID, user ID, amount, currency
+- Location, timestamp, transaction type
+- Merchant information (ID, name, category)
+- Payment method and device information
+
+### Anomaly Detector
+
+The anomaly detector (`detector/anomaly_detector.py`) processes transactions and identifies potential anomalies using:
+
+- **Isolation Forest Algorithm**: A machine learning model for anomaly detection
+- Feature extraction from transaction data
+- Real-time scoring of transactions
+- Storage of detection results in PostgreSQL
+
+### Enhanced Anomaly Detector
+
+The enhanced anomaly detector (`detector/enhanced_anomaly_detector.py`) extends the basic detector with:
+
+- User profile-based detection for improved accuracy
+- Historical transaction analysis
+- Adaptive thresholds based on user behavior
+- More sophisticated feature engineering
+
+### Next.js Frontend
+
+The Next.js frontend provides a modern web interface for:
+
+- Visualizing transaction data in real-time
+- Displaying detected anomalies
+- Filtering and searching transactions
+- Viewing user profiles and transaction patterns
 
 ##  Setup Instructions (for macOS / Windows with WSL)
 
