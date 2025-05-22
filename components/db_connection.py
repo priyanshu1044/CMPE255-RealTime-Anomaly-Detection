@@ -1,3 +1,8 @@
+"""Database Connection Module
+Contributors:
+Priyanshu Patel: Led the development and integration of the end-to-end system. Integrated PostgreSQL for real-time persistence, and built the Docker-based orchestration system.
+"""
+
 import pandas as pd
 import psycopg2
 

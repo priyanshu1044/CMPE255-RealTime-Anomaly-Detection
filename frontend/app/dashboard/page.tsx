@@ -1,5 +1,14 @@
 'use client';
 
+/**
+ * Dashboard Page Component
+ * 
+ * Contributors:
+ * Priyanshu Patel: Led the development and integration of the end-to-end system. 
+ * Additionally, contributed significantly to the frontend dashboard using Next.js and TailwindCSS, 
+ * implementing real-time transaction visualization, anomaly tracking, and analytics views.
+ */
+
 import { AnomalyChart } from "@/components/dashboard/AnomalyChart";
 import { MetricsCards } from "@/components/dashboard/MetricsCards";
 import { AnomaliesTable } from "@/components/dashboard/AnomaliesTable";

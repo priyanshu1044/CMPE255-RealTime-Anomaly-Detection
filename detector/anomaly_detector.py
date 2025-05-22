@@ -1,3 +1,8 @@
+"""Anomaly Detector Module
+Contributors:
+Kruti Bathani: Developed the transaction simulator to generate realistic synthetic financial data. Implemented the Kafka-based streaming pipeline, developed the core and enhanced anomaly detector services.
+"""
+
 from kafka import KafkaConsumer
 from pyod.models.iforest import IForest
 import pandas as pd

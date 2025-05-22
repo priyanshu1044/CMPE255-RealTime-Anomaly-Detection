@@ -1,6 +1,14 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+/**
+ * Anomalies Table Component
+ * 
+ * Contributors:
+ * Priyanshu Patel: Designed and implemented key UI components including the real-time monitoring and export interfaces. 
+ * Contributed significantly to the frontend dashboard using Next.js and TailwindCSS, implementing real-time transaction visualization and anomaly tracking.
+ */
+
+import { useState, useEffect } from 'react';
 import {
   Table,
   TableBody,

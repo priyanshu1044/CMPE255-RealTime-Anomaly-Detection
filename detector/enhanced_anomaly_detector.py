@@ -1,3 +1,9 @@
+"""Enhanced Anomaly Detector Module
+Contributors:
+Kenil Gopani: Implemented the enhanced anomaly detection logic with user profiling and adaptive thresholds. Optimized model performance, managed containerized deployment infrastructure, and handled scalability testing under high-load scenarios.
+Kruti Bathani: Developed the core anomaly detector services and Kafka-based streaming pipeline.
+"""
+
 from kafka import KafkaConsumer
 from pyod.models.iforest import IForest
 import pandas as pd

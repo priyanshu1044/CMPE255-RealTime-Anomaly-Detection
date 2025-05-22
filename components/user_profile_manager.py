@@ -1,3 +1,8 @@
+"""User Profile Manager Module
+Contributors:
+Kenil Gopani: Implemented the enhanced anomaly detection logic with user profiling and adaptive thresholds. Optimized model performance, managed containerized deployment infrastructure, and handled scalability testing under high-load scenarios.
+"""
+
 import psycopg2
 import json
 import pandas as pd

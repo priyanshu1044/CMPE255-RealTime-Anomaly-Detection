@@ -1,5 +1,12 @@
 'use client';
 
+/**
+ * Analytics Page Component
+ * 
+ * Contributors:
+ * Priyanshu Patel: implemented key analytics features and visualizations.
+ */
+
 import { useState } from 'react';
 import { AnalyticsFilters } from "@/components/analytics/AnalyticsFilters";
 import { AnomalyScoreHistogram } from "@/components/analytics/AnomalyScoreHistogram";

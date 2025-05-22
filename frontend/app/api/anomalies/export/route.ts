@@ -3,6 +3,13 @@ import { executeQuery, checkDatabaseConnection } from '@/lib/db';
 import { mockAnomalies } from '@/lib/mock-data';
 import { dummyAnomalies, filterDummyAnomalies } from '@/lib/dummy-data';
 
+/**
+ * Contributors:
+ * 
+ * Priyanshu Patel
+ */
+
+
 interface AnomalyRecord {
   id: string;
   user_id: string;

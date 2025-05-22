@@ -1,3 +1,7 @@
+# Docker Compose Configuration
+# Contributors:
+# Priyanshu Patel: Led the development and integration of the end-to-end system. Integrated PostgreSQL for real-time persistence, and built the Docker-based orchestration system.
+
 version: "3.8"
 
 services:

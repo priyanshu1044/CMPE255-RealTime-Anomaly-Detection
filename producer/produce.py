@@ -1,3 +1,8 @@
+"""
+Contributors:
+Kruti Bathani: Developed the transaction simulator to generate realistic synthetic financial data. Implemented the Kafka-based streaming pipeline, developed the core and enhanced anomaly detector services.
+"""
+
 from kafka import KafkaProducer
 import json, random, time
 import uuid

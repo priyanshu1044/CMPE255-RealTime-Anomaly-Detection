@@ -2,6 +2,10 @@
 """
 Maintenance script for the Real-Time Anomaly Detection System.
 This provides a single interface for common maintenance tasks.
+Contributors:
+Priyanshu Patel: Led the development and integration of the end-to-end system. Integrated PostgreSQL for real-time persistence, and built the Docker-based orchestration system.
+Kruti Bathani: Developed the transaction simulator to generate realistic synthetic financial data. Implemented the Kafka-based streaming pipeline, developed the core and enhanced anomaly detector services.
+Kenil Gopani: Implemented the enhanced anomaly detection logic with user profiling and adaptive thresholds. Optimized model performance, managed containerized deployment infrastructure, and handled scalability testing under high-load scenarios.
 """
 
 import argparse
